@@ -27,7 +27,7 @@ jobs:
       - uses: observIQ/bindplane-op-action@dev
         with:
           bindplane_remote_url: ${{ secrets.BINDPLANE_REMOTE_URL }}
-          bindplane_api_key: ${{ secrets.BINDPLANE_SECRET_KEY }}
+          bindplane_api_key: ${{ secrets.BINDPLANE_API_KEY }}
           target_branch: main
           destination_path: destination.yaml
           configuration_path: configuration.yaml
