@@ -107,6 +107,8 @@ spec:
   destinations:
     - id: 01HKWQXWGFZ4A99S0RFH5PDD1R
       name: nop
+    - id: 01HMH9T9XF939KGHKPRF80ZNT0
+      name: hahahaha
   selector:
     matchLabels:
       configuration: mac-host-metrics
