@@ -1,0 +1,186 @@
+# This configuration is managed by BindPlane OP.
+# Configuration: mac-host-metrics:1
+receivers:
+    hostmetrics/source0_01HKWQXWGEHFKYF7AEPW91CGZ1:
+        collection_interval: 1m0s
+        scrapers:
+            filesystem:
+                metrics:
+                    system.filesystem.utilization:
+                        enabled: true
+            load:
+                metrics: null
+            memory:
+                metrics:
+                    system.memory.utilization:
+                        enabled: true
+            network:
+                metrics:
+                    system.network.conntrack.count:
+                        enabled: true
+                    system.network.conntrack.max:
+                        enabled: true
+            paging:
+                metrics:
+                    system.paging.utilization:
+                        enabled: true
+            process:
+                metrics:
+                    process.context_switches:
+                        enabled: false
+                    process.cpu.utilization:
+                        enabled: false
+                    process.disk.operations:
+                        enabled: false
+                    process.handles:
+                        enabled: false
+                    process.memory.utilization:
+                        enabled: false
+                    process.open_file_descriptors:
+                        enabled: false
+                    process.paging.faults:
+                        enabled: false
+                    process.signals_pending:
+                        enabled: false
+                    process.threads:
+                        enabled: false
+                mute_process_exe_error: true
+                mute_process_io_error: false
+                mute_process_name_error: true
+                mute_process_user_error: false
+    nop/source1_01HMHA376Q82NC221DMS8H9XV2: null
+processors:
+    resourcedetection/hahahaha:
+        detectors:
+            - system
+        override: false
+        system:
+            hostname_sources:
+                - os
+    resourcedetection/source0_01HKWQXWGEHFKYF7AEPW91CGZ1:
+        detectors:
+            - system
+        system:
+            hostname_sources:
+                - os
+exporters:
+    coralogix/hahahaha__logs:
+        application_name: my-app
+        logs:
+            compression: gzip
+            endpoint: otel-logs.""""""
+        private_key: (sensitive)
+        retry_on_failure:
+            enabled: true
+            initial_interval: 5s
+            max_elapsed_time: 300s
+            max_interval: 30s
+        sending_queue:
+            enabled: true
+            num_consumers: 10
+            queue_size: 5000
+            storage: file_storage/hahahaha
+        subsystem_name: my-subsystem
+        timeout: 5s
+    coralogix/hahahaha__metrics:
+        application_name: my-app
+        metrics:
+            compression: gzip
+            endpoint: otel-metrics.""""""
+        private_key: (sensitive)
+        retry_on_failure:
+            enabled: true
+            initial_interval: 5s
+            max_elapsed_time: 300s
+            max_interval: 30s
+        sending_queue:
+            enabled: true
+            num_consumers: 10
+            queue_size: 5000
+            storage: file_storage/hahahaha
+        subsystem_name: my-subsystem
+        timeout: 5s
+    coralogix/hahahaha__traces:
+        application_name: my-app
+        private_key: (sensitive)
+        retry_on_failure:
+            enabled: true
+            initial_interval: 5s
+            max_elapsed_time: 300s
+            max_interval: 30s
+        sending_queue:
+            enabled: true
+            num_consumers: 10
+            queue_size: 5000
+            storage: file_storage/hahahaha
+        subsystem_name: my-subsystem
+        timeout: 5s
+        traces:
+            compression: gzip
+            endpoint: otel-traces.""""""
+    nop/nop: null
+extensions:
+    file_storage/hahahaha:
+        compaction:
+            directory: $OIQ_OTEL_COLLECTOR_HOME/storage
+            on_rebound: true
+        directory: $OIQ_OTEL_COLLECTOR_HOME/storage
+service:
+    extensions:
+        - file_storage/hahahaha
+    pipelines:
+        logs/source1_01HMHA376Q82NC221DMS8H9XV2__hahahaha-1:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors:
+                - resourcedetection/hahahaha
+            exporters:
+                - coralogix/hahahaha__logs
+        logs/source1_01HMHA376Q82NC221DMS8H9XV2__nop-0:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors: []
+            exporters:
+                - nop/nop
+        metrics/source0_01HKWQXWGEHFKYF7AEPW91CGZ1__hahahaha-1:
+            receivers:
+                - hostmetrics/source0_01HKWQXWGEHFKYF7AEPW91CGZ1
+            processors:
+                - resourcedetection/source0_01HKWQXWGEHFKYF7AEPW91CGZ1
+                - resourcedetection/hahahaha
+            exporters:
+                - coralogix/hahahaha__metrics
+        metrics/source0_01HKWQXWGEHFKYF7AEPW91CGZ1__nop-0:
+            receivers:
+                - hostmetrics/source0_01HKWQXWGEHFKYF7AEPW91CGZ1
+            processors:
+                - resourcedetection/source0_01HKWQXWGEHFKYF7AEPW91CGZ1
+            exporters:
+                - nop/nop
+        metrics/source1_01HMHA376Q82NC221DMS8H9XV2__hahahaha-1:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors:
+                - resourcedetection/hahahaha
+            exporters:
+                - coralogix/hahahaha__metrics
+        metrics/source1_01HMHA376Q82NC221DMS8H9XV2__nop-0:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors: []
+            exporters:
+                - nop/nop
+        traces/source1_01HMHA376Q82NC221DMS8H9XV2__hahahaha-1:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors:
+                - resourcedetection/hahahaha
+            exporters:
+                - coralogix/hahahaha__traces
+        traces/source1_01HMHA376Q82NC221DMS8H9XV2__nop-0:
+            receivers:
+                - nop/source1_01HMHA376Q82NC221DMS8H9XV2
+            processors: []
+            exporters:
+                - nop/nop
+

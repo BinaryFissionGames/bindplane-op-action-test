@@ -1,0 +1,66 @@
+# This configuration is managed by BindPlane OP.
+# Configuration: test-ext:1
+receivers:
+    otlp/source0_01HMH6BGEZ1Q201309SNXEPR32:
+        protocols:
+            grpc: null
+            http: null
+processors:
+    batch/test-oauth: null
+exporters:
+    nop/nop: null
+    otlp/test-oauth:
+        compression: gzip
+        endpoint: my-host:4317
+        headers:
+            test: null
+        retry_on_failure:
+            enabled: false
+        sending_queue:
+            enabled: false
+        tls:
+            ca_file: ""
+            insecure: false
+            insecure_skip_verify: false
+service:
+    pipelines:
+        logs/source0_01HMH6BGEZ1Q201309SNXEPR32__nop-0:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors: []
+            exporters:
+                - nop/nop
+        logs/source0_01HMH6BGEZ1Q201309SNXEPR32__test-oauth-1:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors:
+                - batch/test-oauth
+            exporters:
+                - otlp/test-oauth
+        metrics/source0_01HMH6BGEZ1Q201309SNXEPR32__nop-0:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors: []
+            exporters:
+                - nop/nop
+        metrics/source0_01HMH6BGEZ1Q201309SNXEPR32__test-oauth-1:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors:
+                - batch/test-oauth
+            exporters:
+                - otlp/test-oauth
+        traces/source0_01HMH6BGEZ1Q201309SNXEPR32__nop-0:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors: []
+            exporters:
+                - nop/nop
+        traces/source0_01HMH6BGEZ1Q201309SNXEPR32__test-oauth-1:
+            receivers:
+                - otlp/source0_01HMH6BGEZ1Q201309SNXEPR32
+            processors:
+                - batch/test-oauth
+            exporters:
+                - otlp/test-oauth
+
