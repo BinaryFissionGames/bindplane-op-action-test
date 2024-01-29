@@ -1,0 +1,227 @@
+---
+apiVersion: bindplane.observiq.com/v1
+kind: Destination
+metadata:
+    id: clickhouse-test
+    name: clickhouse-test
+spec:
+    type: clickhouse
+    parameters:
+        - name: telemetry_types
+          value:
+            - Logs
+            - Metrics
+            - Traces
+        - name: protocol
+          value: http
+        - name: endpoint
+          value:
+            - 127.0.0.1:1234
+            - '[fe80::1ff:fe23:4567:890a]:1111'
+        - name: username
+          value: user
+        - name: password
+          value: (sensitive)
+          sensitive: true
+        - name: database
+          value: otel
+        - name: logs_table_name
+          value: otel_logs
+        - name: metrics_table_name
+          value: otel_metrics
+        - name: traces_table_name
+          value: otel_traces
+        - name: ttl
+          value: "0"
+        - name: timeout
+          value: 5s
+        - name: connection_params
+          value: {}
+        - name: retry_on_failure_enabled
+          value: true
+        - name: retry_on_failure_initial_interval
+          value: 5
+        - name: retry_on_failure_max_interval
+          value: 30
+        - name: retry_on_failure_max_elapsed_time
+          value: 300
+        - name: sending_queue_enabled
+          value: true
+        - name: sending_queue_num_consumers
+          value: 10
+        - name: sending_queue_queue_size
+          value: 5000
+        - name: persistent_queue_enabled
+          value: true
+        - name: persistent_queue_directory
+          value: $OIQ_OTEL_COLLECTOR_HOME/storage
+status:
+    latest: true
+---
+apiVersion: bindplane.observiq.com/v1
+kind: Destination
+metadata:
+    id: hahahaha
+    name: hahahaha
+spec:
+    type: coralogix
+    parameters:
+        - name: private_key
+          value: (sensitive)
+          sensitive: true
+        - name: application_name
+          value: my-app
+        - name: subsystem_name
+          value: my-subsystem
+        - name: region
+          value: Custom Domain
+        - name: domain
+          value: '""""""'
+        - name: resource_attributes
+          value: false
+        - name: application_name_attributes
+          value: []
+        - name: subsystem_name_attributes
+          value: []
+        - name: enable_metrics
+          value: true
+        - name: enable_logs
+          value: true
+        - name: enable_traces
+          value: true
+        - name: timeout
+          value: 5
+        - name: compression
+          value: gzip
+        - name: retry_on_failure_enabled
+          value: true
+        - name: retry_on_failure_initial_interval
+          value: 5
+        - name: retry_on_failure_max_interval
+          value: 30
+        - name: retry_on_failure_max_elapsed_time
+          value: 300
+        - name: sending_queue_enabled
+          value: true
+        - name: sending_queue_num_consumers
+          value: 10
+        - name: sending_queue_queue_size
+          value: 5000
+        - name: persistent_queue_enabled
+          value: true
+        - name: persistent_queue_directory
+          value: $OIQ_OTEL_COLLECTOR_HOME/storage
+status:
+    latest: true
+---
+apiVersion: bindplane.observiq.com/v1
+kind: Destination
+metadata:
+    id: nop
+    name: nop
+spec:
+    type: custom
+    parameters:
+        - name: telemetry_types
+          value:
+            - Logs
+            - Metrics
+            - Traces
+        - name: configuration
+          value: 'nop:'
+status:
+    latest: true
+---
+apiVersion: bindplane.observiq.com/v1
+kind: Destination
+metadata:
+    id: test-ext-with-otlp
+    name: test-ext-with-otlp
+spec:
+    type: custom
+    parameters:
+        - name: telemetry_types
+          value:
+            - Metrics
+            - Logs
+            - Traces
+        - name: configuration
+          value: |-
+            exporters:
+              otlp/orditude-prod:
+                endpoint: coll
+                auth:
+                  authenticator: oauth2client/extension0_01HMH6D9JM17TSHKC98MRWBVGX__orditude-prod
+status:
+    latest: true
+---
+apiVersion: bindplane.observiq.com/v1
+kind: Destination
+metadata:
+    id: test-oauth
+    name: test-oauth
+spec:
+    type: otlp_grpc
+    parameters:
+        - name: hostname
+          value: my-host
+        - name: grpc_port
+          value: 4317
+        - name: http_port
+          value: 4318
+        - name: protocol
+          value: grpc
+        - name: auth_type
+          value: OAuth 2
+        - name: oauth2_token_url
+          value: https://example/v1/token
+        - name: oauth2_client_id
+          value: client-id
+        - name: oauth2_client_secret
+          value: (sensitive)
+          sensitive: true
+        - name: oauth2_scopes
+          value: []
+        - name: oauth2_endpoint_params
+          value: {}
+        - name: headers
+          value:
+            test: ""
+        - name: http_compression
+          value: gzip
+        - name: oauth2_timeout
+          value: 0
+        - name: grpc_compression
+          value: gzip
+        - name: enable_tls
+          value: true
+        - name: insecure_skip_verify
+          value: false
+        - name: ca_file
+          value: ""
+        - name: mutual_tls
+          value: false
+        - name: cert_file
+          value: ""
+        - name: key_file
+          value: ""
+        - name: retry_on_failure_enabled
+          value: false
+        - name: retry_on_failure_initial_interval
+          value: 5
+        - name: retry_on_failure_max_interval
+          value: 30
+        - name: retry_on_failure_max_elapsed_time
+          value: 300
+        - name: sending_queue_enabled
+          value: false
+        - name: sending_queue_num_consumers
+          value: 10
+        - name: sending_queue_queue_size
+          value: 5000
+        - name: persistent_queue_enabled
+          value: false
+        - name: persistent_queue_directory
+          value: $OIQ_OTEL_COLLECTOR_HOME/storage
+status:
+    latest: true
