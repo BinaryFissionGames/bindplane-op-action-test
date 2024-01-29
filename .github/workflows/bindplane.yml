@@ -34,3 +34,4 @@ jobs:
           enable_otel_config_write_back: true
           configuration_output_dir: otel/
           token: ${{ secrets.GITHUB_TOKEN }}
+          enable_auto_rollout: true

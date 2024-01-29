@@ -2,148 +2,146 @@
 apiVersion: bindplane.observiq.com/v1
 kind: Configuration
 metadata:
-    id: k8snode
-    name: k8snode
-    labels:
-        platform: kubernetes-daemonset
+  id: k8snode
+  name: k8snode
+  labels:
+    platform: kubernetes-daemonset
 spec:
-    contentType: ""
-    measurementInterval: ""
-    sources:
-        - id: 01HKZ1XYHR2XMBCH64P4RGMAP2
-          type: k8s_container
-          parameters:
-            - name: cluster_name
-              value: rancher-desktop
-            - name: log_source
-              value: file
-            - name: file_path
-              value:
-                - /var/log/containers/*.log
-            - name: exclude_file_path
-              value:
-                - /var/log/containers/observiq-*-collector-*
-                - /var/log/containers/bindplane-*-agent-*
-            - name: journald_path
-              value: ""
-            - name: start_at
-              value: end
-    destinations:
-        - id: 01HKZ1XYHSV0E7E68QR1Y09BSH
-          name: nop
-    selector:
-        matchLabels:
-            configuration: k8snode
+  contentType: ""
+  measurementInterval: ""
+  sources:
+    - id: 01HKZ1XYHR2XMBCH64P4RGMAP2
+      type: k8s_container
+      parameters:
+        - name: cluster_name
+          value: rancher-desktop
+        - name: log_source
+          value: file
+        - name: file_path
+          value:
+            - /var/log/containers/*.log
+        - name: exclude_file_path
+          value:
+            - /var/log/containers/observiq-*-collector-*
+            - /var/log/containers/bindplane-*-agent-*
+        - name: journald_path
+          value: ""
+        - name: start_at
+          value: end
+  destinations:
+    - id: 01HKZ1XYHSV0E7E68QR1Y09BSH
+      name: nop
+  selector:
+    matchLabels:
+      configuration: k8snode
 ---
 apiVersion: bindplane.observiq.com/v1
 kind: Configuration
 metadata:
-    id: mac-host-metrics
-    name: mac-host-metrics
-    labels:
-        platform: macos
+  id: mac-host-metrics
+  name: mac-host-metrics
+  labels:
+    platform: macos
 spec:
-    contentType: ""
-    measurementInterval: ""
-    sources:
-        - id: 01HKWQXWGEHFKYF7AEPW91CGZ1
-          type: host
-          parameters:
-            - name: metric_filtering
-              value:
-                - system.disk.io
-                - system.disk.io_time
-                - system.disk.merged
-                - system.disk.operation_time
-                - system.disk.operations
-                - system.disk.pending_operations
-                - system.disk.weighted_io_time
-                - system.processes.count
-                - system.processes.created
-                - system.cpu.time
-                - system.cpu.utilization
-            - name: enable_process
-              value: true
-            - name: process_metrics_filtering
-              value:
-                - process.context_switches
-                - process.cpu.utilization
-                - process.disk.operations
-                - process.memory.utilization
-                - process.open_file_descriptors
-                - process.paging.faults
-                - process.signals_pending
-                - process.threads
-                - process.handles
-            - name: mute_process_name_error
-              value: true
-            - name: mute_process_exe_error
-              value: true
-            - name: mute_process_io_error
-              value: false
-            - name: mute_process_user_error
-              value: false
-            - name: enable_process_filter
-              value: false
-            - name: process_include
-              value: []
-            - name: process_exclude
-              value: []
-            - name: process_filter_match_strategy
-              value: regexp
-            - name: collection_interval
-              value: 60
-        - id: 01HMHA376Q82NC221DMS8H9XV2
-          displayName: nop
-          type: custom
-          parameters:
-            - name: telemetry_types
-              value:
-                - Metrics
-                - Logs
-                - Traces
-            - name: configuration
-              value: 'nop:'
-    destinations:
-        - id: 01HKWQXWGFZ4A99S0RFH5PDD1R
-          name: nop
-        - id: 01HMH9T9XF939KGHKPRF80ZNT0
-          name: hahahaha
-    selector:
-        matchLabels:
-            configuration: mac-host-metrics
+  contentType: ""
+  measurementInterval: ""
+  sources:
+    - id: 01HKWQXWGEHFKYF7AEPW91CGZ1
+      type: host
+      parameters:
+        - name: metric_filtering
+          value:
+            - system.disk.io
+            - system.disk.io_time
+            - system.disk.merged
+            - system.disk.operation_time
+            - system.disk.operations
+            - system.disk.pending_operations
+            - system.disk.weighted_io_time
+            - system.processes.count
+            - system.processes.created
+            - system.cpu.time
+            - system.cpu.utilization
+        - name: enable_process
+          value: true
+        - name: process_metrics_filtering
+          value:
+            - process.context_switches
+            - process.cpu.utilization
+            - process.disk.operations
+            - process.memory.utilization
+            - process.open_file_descriptors
+            - process.paging.faults
+            - process.signals_pending
+            - process.threads
+            - process.handles
+        - name: mute_process_name_error
+          value: true
+        - name: mute_process_exe_error
+          value: true
+        - name: mute_process_io_error
+          value: false
+        - name: mute_process_user_error
+          value: false
+        - name: enable_process_filter
+          value: false
+        - name: process_include
+          value: []
+        - name: process_exclude
+          value: []
+        - name: process_filter_match_strategy
+          value: regexp
+        - name: collection_interval
+          value: 60
+    - id: 01HMHA376Q82NC221DMS8H9XV2
+      displayName: nop
+      type: custom
+      parameters:
+        - name: telemetry_types
+          value:
+            - Metrics
+            - Logs
+            - Traces
+        - name: configuration
+          value: "nop:"
+  destinations:
+    - id: 01HKWQXWGFZ4A99S0RFH5PDD1R
+      name: nop
+  selector:
+    matchLabels:
+      configuration: mac-host-metrics
 ---
 apiVersion: bindplane.observiq.com/v1
 kind: Configuration
 metadata:
-    id: test-ext
-    name: test-ext
-    labels:
-        platform: macos
+  id: test-ext
+  name: test-ext
+  labels:
+    platform: macos
 spec:
-    contentType: ""
-    measurementInterval: ""
-    sources:
-        - id: 01HMH6BGEZ1Q201309SNXEPR32
-          displayName: test-otlp
-          type: custom
-          parameters:
-            - name: telemetry_types
-              value:
-                - Metrics
-                - Logs
-                - Traces
-            - name: configuration
-              value: |-
-                otlp:
-                  protocols:
-                    http:
-                    grpc:
-    destinations:
-        - id: 01HMH6BGF14T7V6JM78CZM3GES
-          name: nop
-        - id: 01HMSB8H7HG2APFX3SVBRK4252
-          name: test-oauth
-    selector:
-        matchLabels:
-            configuration: test-ext
+  contentType: ""
+  measurementInterval: ""
+  sources:
+    - id: 01HMH6BGEZ1Q201309SNXEPR32
+      displayName: test-otlp
+      type: custom
+      parameters:
+        - name: telemetry_types
+          value:
+            - Metrics
+            - Logs
+            - Traces
+        - name: configuration
+          value: |-
+            otlp:
+              protocols:
+                http:
+                grpc:
+  destinations:
+    - id: 01HMH6BGF14T7V6JM78CZM3GES
+      name: nop
+    - id: 01HMSB8H7HG2APFX3SVBRK4252
+      name: test-oauth
+  selector:
+    matchLabels:
+      configuration: test-ext
